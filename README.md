@@ -53,10 +53,10 @@ Additional file creation activity included a file named `tor-shopping-list.txt` 
 
 ```kql
 DeviceFileEvents
-| where DeviceName == "JKVMedr"
+| where DeviceName == "jkvmedr"
 | where InitiatingProcessAccountName == "joshlab"
 | where FileName contains "tor"
-| where Timestamp >= datetime(2024-11-08T22:14:48.6065231Z)
+| where Timestamp >= datetime(2026-20-08T22:14:48.6065231Z)
 | order by Timestamp desc
 | project Timestamp,
           DeviceName,
@@ -66,14 +66,15 @@ DeviceFileEvents
           SHA256,
           Account = InitiatingProcessAccountName
 ```
+<img width="1998" height="1244" alt="image" src="https://github.com/user-attachments/assets/0b6e1461-dbe5-4f80-b12c-a32df97d82f6" />
 
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/71402e84-8767-44f8-908c-1805be31122d">
+
 
 ---
 
 ## 2. Investigated `DeviceProcessEvents` for TOR Installer Execution
 
-Investigated `DeviceProcessEvents` for evidence of TOR installer execution. Results confirmed that the user account `joshlab` executed the TOR installer from the Downloads directory on endpoint `JKVMedr`.
+Investigated `DeviceProcessEvents` for evidence of TOR installer execution. Results confirmed that the user account `joshlab` executed the TOR installer from the Downloads directory on endpoint `jkvmedr`.
 
 The installer executed in silent mode, reducing user-facing prompts and visibility during installation.
 
@@ -88,7 +89,7 @@ The installer executed in silent mode, reducing user-facing prompts and visibili
 
 ```kql
 DeviceProcessEvents
-| where DeviceName == "JKVMedr"
+| where DeviceName == "jkvmedr"
 | where ProcessCommandLine contains "tor-browser-windows-x86_64-portable-14.0.1.exe"
 | project Timestamp,
           DeviceName,
@@ -100,7 +101,7 @@ DeviceProcessEvents
           ProcessCommandLine
 ```
 
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/b07ac4b4-9cb3-4834-8fac-9f5f29709d78">
+<img width="1996" height="950" alt="image" src="https://github.com/user-attachments/assets/857539c5-f6d7-4f9d-acc7-28db4ccb0175" />
 
 ---
 
@@ -121,7 +122,7 @@ Additional `firefox.exe` and `tor.exe` child processes were observed following e
 
 ```kql
 DeviceProcessEvents
-| where DeviceName == "JKVMedr"
+| where DeviceName == "jkvmedr"
 | where FileName has_any ("tor.exe", "firefox.exe", "tor-browser.exe")
 | project Timestamp,
           DeviceName,
@@ -134,7 +135,8 @@ DeviceProcessEvents
 | order by Timestamp desc
 ```
 
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/b13707ae-8c2d-4081-a381-2b521d3a0d8f">
+<img width="2022" height="1244" alt="image" src="https://github.com/user-attachments/assets/e4840d07-1fc7-4da5-8acc-d053f6992f75" />
+
 
 ---
 
@@ -157,7 +159,7 @@ Additional encrypted outbound connections over port `443` and localhost communic
 
 ```kql
 DeviceNetworkEvents
-| where DeviceName == "JKVMedr"
+| where DeviceName == "jkvmedr"
 | where InitiatingProcessAccountName == "joshlab"
 | where InitiatingProcessFileName in ("tor.exe", "firefox.exe")
 | where RemotePort in ("9001", "9030", "9040", "9050", "9051", "9150", "80", "443")
@@ -172,8 +174,7 @@ DeviceNetworkEvents
           InitiatingProcessFolderPath
 | order by Timestamp desc
 ```
-
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/87a02b5b-7d12-4f53-9255-f5e750d0e3cb">
+<img width="2022" height="1244" alt="image" src="https://github.com/user-attachments/assets/7204eb63-6921-4de8-9414-652c45b7030a" />
 
 ---
 
@@ -181,7 +182,7 @@ DeviceNetworkEvents
 
 ## 1. TOR Installer Download
 
-- **Timestamp:** `2024-11-08T22:14:48.6065231Z`
+- **Timestamp:** `2026-20-08T22:14:48.6065231Z`
 - **Event:** User account `joshlab` downloaded the TOR installer to the Downloads directory.
 - **Action:** File download detected
 - **File Path:** `C:\Users\joshlab\Downloads\tor-browser-windows-x86_64-portable-14.0.1.exe`
@@ -190,7 +191,7 @@ DeviceNetworkEvents
 
 ## 2. TOR Installer Execution
 
-- **Timestamp:** `2024-11-08T22:16:47.4484567Z`
+- **Timestamp:** `2026-20-08T22:14:48.6065231Z`
 - **Event:** User account `joshlab` executed the TOR installer in silent mode.
 - **Action:** Process creation detected
 - **Command:** `tor-browser-windows-x86_64-portable-14.0.1.exe /S`
@@ -200,8 +201,8 @@ DeviceNetworkEvents
 
 ## 3. TOR Browser Launch
 
-- **Timestamp:** `2024-11-08T22:17:21.6357935Z`
-- **Event:** TOR Browser launched successfully on endpoint `JKVMedr`.
+- **Timestamp:** `2026-20-08T22:14:48.6065231Z`
+- **Event:** TOR Browser launched successfully on endpoint `jkvmedr`.
 - **Action:** TOR-related process execution detected
 - **Processes Observed:** `firefox.exe`, `tor.exe`
 - **File Path:** `C:\Users\joshlab\Desktop\Tor Browser\Browser\TorBrowser\Tor\tor.exe`
@@ -210,7 +211,7 @@ DeviceNetworkEvents
 
 ## 4. TOR Network Connection Established
 
-- **Timestamp:** `2024-11-08T22:18:01.1246358Z`
+- **Timestamp:** `2026-20-08T22:14:48.6065231Z`
 - **Event:** Outbound TOR network connection established to remote IP `176.198.159.33` over port `9001`.
 - **Action:** Successful network connection detected
 - **Process:** `tor.exe`
@@ -220,10 +221,10 @@ DeviceNetworkEvents
 
 ## 5. Additional TOR Network Activity
 
-- **Timestamp:** `2024-11-08T22:18:08Z`
+- **Timestamp:** `2026-20-08T22:14:48.6065231Z`
 - **Event:** Additional encrypted outbound connection established over port `443`.
 
-- **Timestamp:** `2024-11-08T22:18:16Z`
+- **Timestamp:** `2026-20-08T22:14:48.6065231Z`
 - **Event:** Localhost communication established over port `9150`.
 
 - **Action:** Multiple TOR-related network connections detected
@@ -232,7 +233,7 @@ DeviceNetworkEvents
 
 ## 6. TOR-Related File Creation
 
-- **Timestamp:** `2024-11-08T22:27:19.7259964Z`
+- **Timestamp:** `2026-20-08T22:14:48.6065231Z`
 - **Event:** User account `joshlab` created the file `tor-shopping-list.txt` on the desktop.
 - **Action:** File creation detected
 - **File Path:** `C:\Users\joshlab\Desktop\tor-shopping-list.txt`
